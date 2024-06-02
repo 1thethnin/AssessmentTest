@@ -1,18 +1,15 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import { Provider } from 'react-redux'
+import StackNavigator from './src/navigators/StackNavigator'
+import store from './src/redux/store'
 
-export default function Hello() {
+export default function App() {
   return (
-    <View style={styles.mainContainer}>
-      <Text>Hello...</Text>
-    </View>
+   <Provider store={store}>
+      <StackNavigator />
+    </Provider>
   )
 }
 
-const styles = StyleSheet.create({
-  mainContainer: {
-    flex:1,
-    justifyContent: 'center',
-    alignItems: 'center'
-  }
-})
+const styles = StyleSheet.create({})
