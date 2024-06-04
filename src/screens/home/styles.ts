@@ -2,6 +2,12 @@ import { StyleSheet } from "react-native";
 import { COLORS, FONTS, SIZES } from "../../styles";
 
 export const styles = StyleSheet.create({
+    mainContainer: {
+        flex:1,
+        borderColor: COLORS.darkGray,
+        marginBottom: 10,
+        padding: 16,
+    },
     searchContainer: {
         flexDirection: 'row',
         marginBottom: 12,
@@ -19,12 +25,7 @@ export const styles = StyleSheet.create({
     searchText: {
         color: COLORS.black
     },
-    table: {
-        borderWidth: 1,
-        borderColor: COLORS.darkGray,
-        marginBottom: 10,
-        padding: 16,
-    },
+    
     row: {
         flexDirection: 'row',
     },

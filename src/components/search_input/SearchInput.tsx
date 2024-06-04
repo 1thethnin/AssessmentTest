@@ -3,7 +3,10 @@ import React from 'react';
 import { styles } from './styles';
 import { COLORS } from '../../styles';
 
-export default function SearchInput(props) {
+interface ItemState {
+        [key: string]: any;
+}
+export default function SearchInput(props: ItemState) {
     return (
         <View
             style={{
@@ -15,7 +18,7 @@ export default function SearchInput(props) {
                 {...props}
                 style={{ ...styles.inputContainer }}>
                 <View style={styles.rightIcon}>
-                    <Image source={require('../../assets/icons/search.png')} style={{width: 20, height: 20}} />
+                    <Image source={require('../../assets/icons/search.png')} style={{ width: 20, height: 20 }} />
                 </View>
                 <TextInput
                     {...props}

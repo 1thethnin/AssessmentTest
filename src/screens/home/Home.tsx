@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, Alert, SafeAreaView } from 'react-native';
 import { styles } from './styles';
 import SearchInput from '../../components/search_input/SearchInput';
 import { COLORS, SIZES } from '../../styles';
@@ -7,19 +7,22 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Item } from '../../redux/reducers/homeReducer';
 import { setList, setSearchItem } from '../../redux/actions/homeAction';
 import customData from '../../../leaderboard.json';
+import { RootState } from '../../redux/store';
+import { AppActions } from '../../redux/actions/actionTypes';
+
 
 
 const Home: React.FC = () => {
   const [searchValue, setSearchValue] = useState('')
-  const dataArray: Item[] = Object.entries(customData).map(([key, value]) => (value));
+  const dataArray = Object.entries(customData).map(([key, value]) => (value));
 
-  const dispatch = useDispatch();
-  const list = useSelector((state: any) => state.home?.items);
-  const searchItem = useSelector((state: any) => state?.home?.searchItem);
-
+  const list = useSelector((state: RootState) => state.home?.items);
+  const searchItem = useSelector((state: RootState) => state?.home?.searchItem);
+  // const dispatch = useDispatch<React.Dispatch<AppActions>>();
+  const dispatch = useDispatch()
+  
   useEffect(() => {
-    // if (!searchValue)
-      dispatch(setList(dataArray));
+    dispatch(setList(dataArray));
   }, [searchValue === '']);
 
   const onSearch = () => {
@@ -42,13 +45,13 @@ const Home: React.FC = () => {
       ...user,
       stars: index + 1
     }));
-    dispatch(setList(topList))
+    dispatch(setList(topList));
     dispatch(setSearchItem(searchValue));
   };
 
 
   const handleOnChange = (text: string) => {
-    if(!text){
+    if (!text) {
       dispatch(setList(list))
       dispatch(setSearchItem(''));
 
@@ -67,34 +70,36 @@ const Home: React.FC = () => {
   }
 
   return (
-    <View style={styles.table}>
-      <View style={styles.searchContainer}>
-        <View style={{ flex: 0.8 }}>
-          <SearchInput
-            placeholder="Search user name"
-            value={searchValue}
-            onChangeText={handleOnChange}
-          />
+    <SafeAreaView style={{ flex: 1 }}>
+      <View style={styles.mainContainer}>
+        <View style={styles.searchContainer}>
+          <View style={{ flex: 0.8 }}>
+            <SearchInput
+              placeholder="Search user name"
+              value={searchValue}
+              onChangeText={handleOnChange}
+            />
+          </View>
+          <TouchableOpacity style={styles.searchBtn} onPress={onSearch}>
+            <Text style={styles.searchText}>Search</Text>
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity style={styles.searchBtn} onPress={onSearch}>
-          <Text style={styles.searchText}>Search</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={{ ...styles.row, backgroundColor: COLORS.darkGray }}>
-        <Text style={styles.header}>Name</Text>
-        <Text style={styles.header}>Rank</Text>
-        <Text style={styles.header}>Number of bananas</Text>
-      </View>
-      {
-        list?.length > 0 &&
-        <FlatList
-          data={list}
-          renderItem={renderItem}
-          keyExtractor={item => item.uid}
-        />
-      }
+        <View style={{ ...styles.row, backgroundColor: COLORS.darkGray }}>
+          <Text style={styles.header}>Name</Text>
+          <Text style={styles.header}>Rank</Text>
+          <Text style={styles.header}>Number of bananas</Text>
+        </View>
+        {
+          list?.length > 0 &&
+          <FlatList
+            data={list}
+            renderItem={renderItem}
+            keyExtractor={item => item.uid}
+          />
+        }
 
-    </View>
+      </View>
+    </SafeAreaView>
   );
 };
 
