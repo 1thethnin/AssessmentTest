@@ -2,25 +2,22 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, TouchableOpacity, Alert, SafeAreaView } from 'react-native';
 import { styles } from './styles';
 import SearchInput from '../../components/search_input/SearchInput';
-import { COLORS, SIZES } from '../../styles';
+import { COLORS } from '../../styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { Item } from '../../redux/reducers/homeReducer';
 import { setList, setSearchItem } from '../../redux/actions/homeAction';
 import customData from '../../../leaderboard.json';
 import { RootState } from '../../redux/store';
-import { AppActions } from '../../redux/actions/actionTypes';
-
-
 
 const Home: React.FC = () => {
   const [searchValue, setSearchValue] = useState('')
-  const dataArray = Object.entries(customData).map(([key, value]) => (value));
+  const dataArray: Item[] = Object.entries(customData).map(([key, value]) => (value));
 
   const list = useSelector((state: RootState) => state.home?.items);
   const searchItem = useSelector((state: RootState) => state?.home?.searchItem);
-  // const dispatch = useDispatch<React.Dispatch<AppActions>>();
-  const dispatch = useDispatch()
-  
+
+  const dispatch = useDispatch<any>();
+
   useEffect(() => {
     dispatch(setList(dataArray));
   }, [searchValue === '']);
